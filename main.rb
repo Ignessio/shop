@@ -1,9 +1,64 @@
-require_relative "lib/product"
-require_relative "lib/movie"
-require_relative "lib/book"
+# encoding: utf-8
 
-products = []
-products << Movie.new(title: "Леон", year: 1994, director: "Люк Бессон", price: 990, amount: 5)
-products << Movie.new(title: "Дурак", year: 2014, director: "Юрий Быков", price: 390,  amount: 1)
-products << Book.new(title: "Идиот", genre: "роман", author: "Федор Достоевский", price: 1500, amount: 10)
-products.each { |product| puts product }
+if Gem.win_platform?
+  Encoding.default_external = Encoding.find(Encoding.locale_charmap)
+  Encoding.default_internal = __ENCODING__
+
+  [STDIN, STDOUT].each do |io|
+    io.set_encoding(Encoding.default_external, Encoding.default_internal)
+  end
+end
+
+require_relative 'lib/product'
+require_relative 'lib/book'
+require_relative 'lib/movie'
+require_relative 'lib/disk'
+require_relative 'lib/product_collection'
+require_relative 'lib/cart'
+
+collection = ProductCollection.from_dir(File.dirname(__FILE__) + '/data')
+
+collection.sort!(by: :price, order: :asc)
+
+cart = Cart.new
+
+loop do
+  collection.remove_out_of_stock!
+
+  puts <<~COLLECTION
+
+    Что хотите купить?
+
+    #{collection}
+
+    0. Выход
+
+  COLLECTION
+
+  print "> "
+
+  user_input = STDIN.gets.to_i
+
+  break if user_input == 0
+
+  chosen_product = collection[user_input]
+
+  next if chosen_product.nil?
+
+  cart << chosen_product
+  chosen_product.amount -= 1
+
+  puts <<~PRE_TOTAL
+    Вы выбрали #{chosen_product}
+
+    Всего товаров на сумму: #{cart.total}
+  PRE_TOTAL
+end
+
+puts <<~TOTAL
+  Вы купили:
+
+  #{cart}
+
+  С Вас — #{cart.total} руб. Спасибо за покупки!
+TOTAL

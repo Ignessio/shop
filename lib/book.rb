@@ -1,16 +1,16 @@
 class Book < Product
   attr_accessor :title, :author, :genre
 
-  def self.from_file(path)
-    lines = File.readlines(path, chomp: true, encoding: 'utf-8')
+  def self.from_file(file_path)
+    lines = File.readlines(file_path, chomp: true, encoding: "utf-8")
     .map { |l| l.chomp}
 
-    self.new(
+    new(
       title: lines[0],
       genre: lines[1],
       author: lines[2],
-      price: lines[3].to_i,
-      amount: lines[4].to_i
+      price: lines[3],
+      amount: lines[4]
     )
   end
 
@@ -21,12 +21,7 @@ class Book < Product
     @genre = params[:genre]
   end
 
-  def from_file(path)
-    book = File.readlines(path)
-    p book
-  end
-
   def to_s
-    "Книга \"#{@title}\", #{@genre}, автор - #{@author}, #{super}"
+    "Книга «#{@title}», #{@genre}, автор - #{@author}, #{super}"
   end
 end

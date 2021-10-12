@@ -3,8 +3,8 @@ class Product
 
   def initialize(params)
     @title = params[:title]
-    @price = params[:price]
-    @amount = params[:amount]
+    @price = params[:price].to_i
+    @amount = params[:amount].to_i
   end
 
   def self.from_file(path)
