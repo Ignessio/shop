@@ -3,7 +3,6 @@ class Disk < Product
 
   def self.from_file(file_path)
     lines = File.readlines(file_path, chomp: true, encoding: "utf-8")
-    .map { |l| l.chomp}
 
     new(
       title: lines[0],

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 if Gem.win_platform?
   Encoding.default_external = Encoding.find(Encoding.locale_charmap)
   Encoding.default_internal = __ENCODING__
@@ -9,14 +7,14 @@ if Gem.win_platform?
   end
 end
 
-require_relative 'lib/product'
-require_relative 'lib/book'
-require_relative 'lib/movie'
-require_relative 'lib/disk'
-require_relative 'lib/product_collection'
-require_relative 'lib/cart'
+require_relative "lib/product"
+require_relative "lib/book"
+require_relative "lib/movie"
+require_relative "lib/disk"
+require_relative "lib/product_collection"
+require_relative "lib/cart"
 
-collection = ProductCollection.from_dir(File.dirname(__FILE__) + '/data')
+collection = ProductCollection.from_dir(File.dirname(__FILE__) + "/data")
 
 collection.sort!(by: :price, order: :asc)
 
@@ -39,7 +37,7 @@ loop do
 
   user_input = STDIN.gets.to_i
 
-  break if user_input == 0
+  break if user_input.zero?
 
   chosen_product = collection[user_input]
 

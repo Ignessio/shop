@@ -7,7 +7,7 @@ class Product
     @amount = params[:amount].to_i
   end
 
-  def self.from_file(path)
+  def self.from_file(file_path)
     raise NotImplementedError
   end
 

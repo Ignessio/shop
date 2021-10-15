@@ -1,10 +1,8 @@
-# encoding: utf-8
-
 class ProductCollection
   PRODUCT_TYPES = [
-    {dir: 'movies', class: Movie},
-    {dir: 'books', class: Book},
-    {dir: 'disks', class: Disk}
+    {dir: "movies", class: Movie},
+    {dir: "books", class: Book},
+    {dir: "disks", class: Disk}
   ]
 
   def initialize(products = [])
@@ -18,7 +16,7 @@ class ProductCollection
       product_dir = hash[:dir]
       product_class = hash[:class]
 
-      Dir[File.join(dir_path, product_dir, '*.txt')].each do |path|
+      Dir[File.join(dir_path, product_dir, "*.txt")].each do |path|
         products << product_class.from_file(path)
       end
     end
