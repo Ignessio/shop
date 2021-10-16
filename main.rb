@@ -44,6 +44,7 @@ loop do
   next if chosen_product.nil?
 
   cart << chosen_product
+
   chosen_product.amount -= 1
 
   puts <<~PRE_TOTAL
